@@ -4,7 +4,7 @@
 
     <groupId>io.github.magnusp</groupId>
     <artifactId>release-test</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
