@@ -1,0 +1,27 @@
+services:
+  reposilite:
+    image: dzikoysk/reposilite:3.2.0
+    env_file:
+      - .env
+    environment:
+      - REPOSILITE_OPTS=--port ${REPOSILITE_PORT} --token repo-token:repo-token
+    volumes:
+      - reposilite-data:/app/data
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    network_mode: host
+  ngrok:
+    image: ngrok/ngrok:latest
+    command:
+      - "http"
+      - "--log"
+      - "stdout"
+      - "--url"
+      - "${NGROK_URL}"
+      - "http://localhost:${REPOSILITE_PORT}"
+    environment:
+      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
+    network_mode: host
+volumes:
+  reposilite-data: {}
