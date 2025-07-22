@@ -42,6 +42,12 @@
             </plugin>
         </plugins>
     </build>
+    <scm>
+        <connection>scm:git:git@github.com:magnusp/release-test</connection>
+        <url>scm:git:git@github.com:magnusp/release-test</url>
+        <developerConnection>scm:git:git@github.com:magnusp/release-test</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
     <distributionManagement>
         <repository>
             <id>reposilite-repository</id>
