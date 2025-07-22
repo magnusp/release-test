@@ -10,7 +10,8 @@ services:
     restart: unless-stopped
     stdin_open: true
     tty: true
-    network_mode: host
+    ports:
+      - ${REPOSILITE_PORT}:${REPOSILITE_PORT}
   ngrok:
     image: ngrok/ngrok:latest
     command:
@@ -19,9 +20,10 @@ services:
       - "stdout"
       - "--url"
       - "${NGROK_URL}"
-      - "http://localhost:${REPOSILITE_PORT}"
+      - "http://reposilite:${REPOSILITE_PORT}"
     environment:
       NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
-    network_mode: host
+    ports:
+      - "4040:4040"
 volumes:
   reposilite-data: {}
