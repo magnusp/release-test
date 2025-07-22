@@ -13,6 +13,7 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <changesets.plugin.version>0.2.0</changesets.plugin.version>
+        <reposilite.url>http://localhost:7999</reposilite.url>
     </properties>
     <build>
     <plugins>
@@ -41,4 +42,16 @@
         </plugin>
     </plugins>
     </build>
+    <distributionManagement>
+        <repository>
+            <id>reposilite-repository</id>
+            <name>reposilite-release</name>
+            <url>${reposilite.url}/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>reposilite-repository</id>
+            <name>reposilite-snapshot</name>
+            <url>${reposilite.url}/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
