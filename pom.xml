@@ -4,7 +4,7 @@
 
     <groupId>io.github.magnusp</groupId>
     <artifactId>release-test</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -44,7 +44,7 @@
         <connection>scm:git:git@github.com:magnusp/release-test</connection>
         <url>scm:git:git@github.com:magnusp/release-test</url>
         <developerConnection>scm:git:git@github.com:magnusp/release-test</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v0.0.2</tag>
     </scm>
     <distributionManagement>
         <repository>
