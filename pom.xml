@@ -4,7 +4,7 @@
 
     <groupId>io.github.magnusp</groupId>
     <artifactId>release-test</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -44,7 +44,7 @@
         <connection>scm:git:git@github.com:magnusp/release-test</connection>
         <url>scm:git:git@github.com:magnusp/release-test</url>
         <developerConnection>scm:git:git@github.com:magnusp/release-test</developerConnection>
-        <tag>v0.0.3</tag>
+        <tag>HEAD</tag>
     </scm>
     <profiles>
         <!-- Activates the plugins that are only needed when publishing artifacts -->
