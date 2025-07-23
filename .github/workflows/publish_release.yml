@@ -1,4 +1,4 @@
-name: Publish draft release
+name: On draft release published
 on:
   release:
     types: [published]
