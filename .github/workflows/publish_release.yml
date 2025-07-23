@@ -1,22 +1,25 @@
+name: Publish draft release
 on:
   release:
-    types:
-      - released
+    types: [published]
 
 jobs:
   deploy_release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Fetch all history including tags
-
-      - name: Get tag name
-        id: get_tag
-        run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-
-      - name: Publish Release
+      - name: Get release information
         run: |
-          TAG="${{ steps.get_tag.outputs.TAG_NAME }}"
-          echo "Publishing workflow for tag: $TAG"
+          echo "Release name: ${{ github.event.release.name }}"
+          echo "Release tag: ${{ github.event.release.tag_name }}"
+          echo "Release URL: ${{ github.event.release.html_url }}"
+          echo "Release body: ${{ github.event.release.body }}"
+          echo "Release published at: ${{ github.event.release.published_at }}"
+
+      - name: "Perform an action (example: build and deploy)"
+        run: |
+          echo "This job runs when a draft release is published."
+          echo "You can add your build, deploy, or other post-release tasks here."
+          # Example: Call a script to build your project
+          # ./scripts/build.sh
+          # Example: Deploy to a server
+          # ssh user@yourserver "deploy_app.sh ${{ github.event.release.tag_name }}"
