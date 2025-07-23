@@ -32,7 +32,8 @@ jobs:
           # This is a common pattern to generate release notes.
           # You might need to adjust this based on your branching/tagging strategy.
           LAST_TAG=$(git describe --tags --abbrev=0 "$TAG"^ 2>/dev/null || git rev-list --max-parents=0 HEAD)
-          CHANGELOG=$(git log "$LAST_TAG".."$TAG" --pretty=format:"* %s by @%an")
+          #CHANGELOG=$(git log "$LAST_TAG".."$TAG" --pretty=format:"* %s by @%an")
+          CHANGELOG="Changelog contents go here"
           
           gh release create "$TAG" \
             --draft \
