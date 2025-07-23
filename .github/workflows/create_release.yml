@@ -1,38 +1,45 @@
 name: Create release
 on:
   push:
-    branches: [main]
+    tags:
+      - v[0-9]+
 
 env:
   CI: true
 
 jobs:
-  debug:
+  create_draft_release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Grant write permission to the GITHUB_TOKEN for creating releases
     steps:
-      - name: Output github ref
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history including tags
+
+      - name: Get tag name
+        id: get_tag
+        run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Create Draft Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # The GITHUB_TOKEN is automatically provided
         run: |
-          echo "GITHUB_REF: $GITHUB_REF"
-  build:
-    if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-latest
-    steps:
-        - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-
-        - name: Set up JDK 21
-          uses: actions/setup-java@v4
-          with:
-            java-version: '21'
-            distribution: 'temurin'
-            server-id: github
-            settings-path: ${{ github.workspace }}
-
-        #- name: Check if a release is needed
-        #  id: release_check
-        #  run: scripts/check_release
-        #  env:
-        #
-
-        - name: Debug
-          run: |
-            echo "GITHUB_REF: $GITHUB_REF"
+          TAG="${{ steps.get_tag.outputs.TAG_NAME }}"
+          RELEASE_TITLE="Release $TAG"
+          # Get the changes since the last release (or initial commit if no previous release)
+          # This is a common pattern to generate release notes.
+          # You might need to adjust this based on your branching/tagging strategy.
+          LAST_TAG=$(git describe --tags --abbrev=0 "$TAG"^ 2>/dev/null || git rev-list --max-parents=0 HEAD)
+          CHANGELOG=$(git log "$LAST_TAG".."$TAG" --pretty=format:"* %s by @%an")
+          
+          gh release create "$TAG" \
+            --draft \
+            --title "$RELEASE_TITLE" \
+            --notes "$CHANGELOG"
+            # Optional: Add assets (e.g., compiled binaries, documentation)
+            # --discussion-category "Announcements" \ # Requires a discussion category to be set up
+            # --generate-notes # Can auto-generate notes, but often less detailed than custom changelog
+          
+          echo "Created draft release for tag: $TAG"
