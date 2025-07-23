@@ -46,16 +46,53 @@
         <developerConnection>scm:git:git@github.com:magnusp/release-test</developerConnection>
         <tag>HEAD</tag>
     </scm>
-    <distributionManagement>
-        <repository>
-            <id>reposilite-repository</id>
-            <name>reposilite-release</name>
-            <url>${reposilite.url}/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>reposilite-repository</id>
-            <name>reposilite-snapshot</name>
-            <url>${reposilite.url}/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
+    <profiles>
+        <!-- Activates the plugins that are only needed when publishing artifacts -->
+        <profile>
+            <id>publish</id>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>github</id>
+                    <name>GitHub Packages (SNAPSHOT)</name>
+                    <url>https://maven.pkg.github.com/magnusp/release-test/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>github</id>
+                    <name>GitHub Packages</name>
+                    <url>https://maven.pkg.github.com/magnusp/release-test</url>
+                </repository>
+            </distributionManagement>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.11.2</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.3.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 </project>
