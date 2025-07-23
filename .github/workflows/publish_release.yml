@@ -1,0 +1,22 @@
+on:
+  release:
+    types:
+      - released
+
+jobs:
+  deploy_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history including tags
+
+      - name: Get tag name
+        id: get_tag
+        run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Publish Release
+        run: |
+          TAG="${{ steps.get_tag.outputs.TAG_NAME }}"
+          echo "Publishing workflow for tag: $TAG"
